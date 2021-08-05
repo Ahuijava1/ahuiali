@@ -54,4 +54,12 @@ public interface WeightRecordService {
      * @return
      */
     Response<?> getRecords(WeightRecordTimeVo weightRecordTimeVo, Integer userId);
+
+    /**
+     * 删除一条数据
+     * @param id 数据id
+     * @return resp
+     */
+    Response<?> deleteRecord(String id);
+
 }

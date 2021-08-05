@@ -2,6 +2,7 @@ package com.ahuiali.weight_record.dao;
 
 import com.ahuiali.weight_record.entity.WeightRecordEntity;
 import com.ahuiali.weight_record.vo.WeightRecordTimeVo;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -58,5 +59,10 @@ public class WeightRecordDao {
         criteria.and("record_time").lte(weightRecordTimeVo.getEndTime()).gte(weightRecordTimeVo.getStartTime());
         Query query = new Query(criteria);
         return mongoTemplate.find(query, WeightRecordEntity.class);
+    }
+
+    public DeleteResult delete(String id) {
+        Query query = Query.query(Criteria.where("id").is(id));
+        return mongoTemplate.remove(query, WeightRecordEntity.class);
     }
 }

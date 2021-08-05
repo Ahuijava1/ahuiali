@@ -9,10 +9,12 @@ import com.ahuiali.weight_record.service.WeightRecordService;
 import com.ahuiali.weight_record.vo.WeightRecordBaseVo;
 import com.ahuiali.weight_record.vo.WeightRecordTimeVo;
 import com.ahuiali.weight_record.vo.WeightRecordVo;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -78,7 +80,6 @@ public class WeightRecordServiceImpl implements WeightRecordService {
 
     @Override
     public Response<?> getRecords(WeightRecordTimeVo weightRecordTimeVo, Integer userId) {
-
         List<WeightRecordEntity> weightRecordEntities = weightRecordDao.getRecords(weightRecordTimeVo, userId);
         List<WeightRecordDto> weightRecordDtos = ListBeanUtils.copyListProperties(weightRecordEntities, WeightRecordDto::new);
         if (weightRecordEntities.size() > 0)  {
@@ -86,6 +87,14 @@ public class WeightRecordServiceImpl implements WeightRecordService {
             response.setData(weightRecordDtos);
             return response;
         }
+        return null;
+    }
+
+    @Override
+    public Response<?> deleteRecord(String id) {
+        if (StringUtils.isEmpty(id)) return null;
+        DeleteResult delete = weightRecordDao.delete(id);
+        if (delete.getDeletedCount() > 0) return Response.success();
         return null;
     }
 }

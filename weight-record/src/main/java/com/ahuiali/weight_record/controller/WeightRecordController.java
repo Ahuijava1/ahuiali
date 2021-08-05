@@ -78,4 +78,14 @@ public class WeightRecordController {
         Integer userId = 21;
         return weightRecordService.getRecords(weightRecordTimeVo, userId);
     }
+
+    /**
+     * 删除一条数据
+     * @param id id
+     * @return resp
+     */
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public Response<?> delete(@PathVariable String id) {
+        return weightRecordService.deleteRecord(id);
+    }
 }
